@@ -6,7 +6,7 @@ RUN apk add --no-cache libc6-compat python3 make g++
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci
+RUN npm install --production=false
 
 # 构建阶段
 FROM base AS builder
@@ -36,7 +36,7 @@ USER nextjs
 
 EXPOSE 3000
 
-ENV PORT 3000
-ENV HOSTNAME "0.0.0.0"
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
 
 CMD ["node", "server.js"]
