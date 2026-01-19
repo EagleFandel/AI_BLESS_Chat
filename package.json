@@ -1,0 +1,30 @@
+{
+  "name": "apple-watch-ai-chat",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "docker:build": "docker build -t apple-watch-ai-chat .",
+    "docker:run": "docker run -p 3000:3000 --env-file .env.local -v $(pwd)/data:/app/data apple-watch-ai-chat"
+  },
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-markdown": "^9.0.0",
+    "remark-math": "^6.0.0",
+    "rehype-katex": "^7.0.0",
+    "katex": "^0.16.0",
+    "better-sqlite3": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@types/better-sqlite3": "^7.6.0",
+    "typescript": "^5.0.0"
+  }
+}
