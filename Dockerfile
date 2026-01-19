@@ -1,4 +1,4 @@
-FROM node:20-alpine AS base
+FROM node:20.11.0-alpine3.19 AS base
 
 # 安装依赖阶段
 FROM base AS deps
