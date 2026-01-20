@@ -95,10 +95,10 @@ export default function Home() {
   }
 
   return (
-    <>
-      {/* 消息列表 */}
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100dvh' }}>
+      {/* 消息列表（唯一可滚动区域） */}
       <div style={{ 
-        height: 'calc(100vh - 80px)',
+        flex: 1,
         overflowY: 'scroll',
         WebkitOverflowScrolling: 'touch' as any,
         padding: '8px'
@@ -143,7 +143,7 @@ export default function Home() {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* 输入区域 */}
+      {/* 输入区域（固定在底部），输入框：发送=1:1 */}
       <div style={{ 
         padding: '8px',
         background: '#0a0a0a',
@@ -159,10 +159,11 @@ export default function Home() {
             disabled={loading}
             style={{
               flex: 1,
-              padding: '8px',
+              minWidth: 0,
+              padding: '10px 12px',
               background: '#1a1a1a',
               border: 'none',
-              borderRadius: '6px',
+              borderRadius: '10px',
               color: '#fff',
               fontSize: '19px',
               outline: 'none'
@@ -172,7 +173,8 @@ export default function Home() {
             onClick={sendMessage}
             disabled={loading || !input.trim()}
             style={{
-              padding: '10px 16px',
+              flex: 1,
+              padding: '10px 12px',
               background: loading || !input.trim() ? '#333' : '#0a84ff',
               border: 'none',
               borderRadius: '10px',
@@ -185,6 +187,6 @@ export default function Home() {
           </button>
         </div>
       </div>
-    </>
+    </div>
   )
 }
