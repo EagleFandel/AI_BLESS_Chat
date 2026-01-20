@@ -97,9 +97,10 @@ export default function Home() {
   return (
     <div
       style={{
-        minHeight: '100vh',
+        minHeight: '100svh',
+        minHeight: '100dvh',
         padding: '8px',
-        paddingBottom: '80px', // 为底部输入栏预留空间
+        paddingBottom: 'calc(88px + env(safe-area-inset-bottom))', // 为底部输入栏预留空间（含安全区）
         boxSizing: 'border-box',
         background: '#000',
       }}
@@ -161,6 +162,7 @@ export default function Home() {
           right: 0,
           bottom: 0,
           padding: '8px',
+          paddingBottom: 'calc(8px + env(safe-area-inset-bottom))',
           background: '#0a0a0a',
           borderTop: '1px solid #1a1a1a',
         }}
