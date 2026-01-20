@@ -97,7 +97,6 @@ export default function Home() {
   return (
     <div
       style={{
-        minHeight: '100svh',
         minHeight: '100dvh',
         padding: '8px',
         paddingBottom: 'calc(88px + env(safe-area-inset-bottom))', // 为底部输入栏预留空间（含安全区）
