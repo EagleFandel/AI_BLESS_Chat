@@ -95,60 +95,78 @@ export default function Home() {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100dvh' }}>
-      {/* 消息列表（唯一可滚动区域） */}
-      <div style={{ 
-        flex: 1,
+    <div
+      style={{
+        height: '100dvh',
         overflowY: 'scroll',
         WebkitOverflowScrolling: 'touch' as any,
-        padding: '8px'
-      }}>
-        {messages.map(msg => (
-          <div key={msg.id} style={{
+        padding: '8px',
+        paddingBottom: '80px', // 为底部输入栏预留空间
+        boxSizing: 'border-box',
+        position: 'relative',
+      }}
+    >
+      {/* 聊天记录：直接作为主容器内容 */}
+      {messages.map((msg) => (
+        <div
+          key={msg.id}
+          style={{
             marginBottom: '8px',
             padding: '6px 8px',
             background: msg.role === 'user' ? '#1a1a1a' : '#0a0a0a',
             borderRadius: '8px',
-            borderLeft: msg.role === 'assistant' ? '2px solid #0a84ff' : 'none'
-          }}>
-            <div style={{ 
-              fontSize: '16px', 
+            borderLeft:
+              msg.role === 'assistant' ? '2px solid #0a84ff' : 'none',
+          }}
+        >
+          <div
+            style={{
+              fontSize: '16px',
               color: '#666',
-              marginBottom: '3px'
-            }}>
-              {msg.role === 'user' ? '我' : '老师'}
-            </div>
-            {msg.role === 'assistant' ? (
-              <ReactMarkdown
-                className="markdown-content"
-                remarkPlugins={[remarkMath]}
-                rehypePlugins={[rehypeKatex]}
-              >
-                {msg.content}
-              </ReactMarkdown>
-            ) : (
-              <div style={{ fontSize: '19px' }}>{msg.content}</div>
-            )}
+              marginBottom: '3px',
+            }}
+          >
+            {msg.role === 'user' ? '我' : '老师'}
           </div>
-        ))}
-        {loading && (
-          <div style={{ 
+          {msg.role === 'assistant' ? (
+            <ReactMarkdown
+              className="markdown-content"
+              remarkPlugins={[remarkMath]}
+              rehypePlugins={[rehypeKatex]}
+            >
+              {msg.content}
+            </ReactMarkdown>
+          ) : (
+            <div style={{ fontSize: '19px' }}>{msg.content}</div>
+          )}
+        </div>
+      ))}
+
+      {loading && (
+        <div
+          style={{
             padding: '6px 8px',
             color: '#666',
-            fontSize: '19px'
-          }}>
-            思考中...
-          </div>
-        )}
-        <div ref={messagesEndRef} />
-      </div>
+            fontSize: '19px',
+          }}
+        >
+          思考中...
+        </div>
+      )}
+      <div ref={messagesEndRef} />
 
-      {/* 输入区域（固定在底部），输入框：发送=1:1 */}
-      <div style={{ 
-        padding: '8px',
-        background: '#0a0a0a',
-        borderTop: '1px solid #1a1a1a'
-      }}>
+      {/* 底部输入区域（固定在屏幕下方），输入框：发送=1:1 */}
+      <div
+        style={{
+          position: 'fixed',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          padding: '8px',
+          background: '#0a0a0a',
+          borderTop: '1px solid #1a1a1a',
+        }}
+      >
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
           <input
             type="text"
@@ -166,7 +184,7 @@ export default function Home() {
               borderRadius: '10px',
               color: '#fff',
               fontSize: '19px',
-              outline: 'none'
+              outline: 'none',
             }}
           />
           <button
@@ -180,7 +198,7 @@ export default function Home() {
               borderRadius: '10px',
               color: '#fff',
               fontSize: '20px',
-              cursor: loading || !input.trim() ? 'not-allowed' : 'pointer'
+              cursor: loading || !input.trim() ? 'not-allowed' : 'pointer',
             }}
           >
             发送
