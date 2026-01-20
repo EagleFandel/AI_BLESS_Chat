@@ -97,14 +97,17 @@ export default function Home() {
   return (
     <div style={{ 
       display: 'flex', 
-      flexDirection: 'column', 
-      height: '484px',
-      width: '396px'
+      flexDirection: 'column',
+      width: '100%',
+      maxWidth: '396px',
+      maxHeight: '484px',
+      margin: '0 auto'
     }}>
       {/* 消息列表 */}
       <div style={{ 
         flex: 1, 
-        overflowY: 'auto',
+        overflowY: 'scroll',
+        WebkitOverflowScrolling: 'touch' as any,
         padding: '8px'
       }}>
         {messages.map(msg => (
@@ -116,7 +119,7 @@ export default function Home() {
             borderLeft: msg.role === 'assistant' ? '2px solid #0a84ff' : 'none'
           }}>
             <div style={{ 
-              fontSize: '11px', 
+              fontSize: '16px', 
               color: '#666',
               marginBottom: '3px'
             }}>
@@ -131,7 +134,7 @@ export default function Home() {
                 {msg.content}
               </ReactMarkdown>
             ) : (
-              <div style={{ fontSize: '13px' }}>{msg.content}</div>
+              <div style={{ fontSize: '19px' }}>{msg.content}</div>
             )}
           </div>
         ))}
@@ -139,7 +142,7 @@ export default function Home() {
           <div style={{ 
             padding: '6px 8px',
             color: '#666',
-            fontSize: '13px'
+            fontSize: '19px'
           }}>
             思考中...
           </div>
@@ -168,7 +171,7 @@ export default function Home() {
               border: 'none',
               borderRadius: '6px',
               color: '#fff',
-              fontSize: '13px',
+              fontSize: '19px',
               outline: 'none'
             }}
           />
@@ -181,7 +184,7 @@ export default function Home() {
               border: 'none',
               borderRadius: '6px',
               color: '#fff',
-              fontSize: '13px',
+              fontSize: '19px',
               cursor: loading || !input.trim() ? 'not-allowed' : 'pointer'
             }}
           >
