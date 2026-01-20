@@ -97,16 +97,14 @@ export default function Home() {
   return (
     <div
       style={{
-        height: '100dvh',
-        overflowY: 'scroll',
-        WebkitOverflowScrolling: 'touch' as any,
+        minHeight: '100vh',
         padding: '8px',
         paddingBottom: '80px', // 为底部输入栏预留空间
         boxSizing: 'border-box',
-        position: 'relative',
+        background: '#000',
       }}
     >
-      {/* 聊天记录：直接作为主容器内容 */}
+      {/* 聊天记录：直接作为页面主内容，跟 Bless 一样用页面自身滚动 */}
       {messages.map((msg) => (
         <div
           key={msg.id}
