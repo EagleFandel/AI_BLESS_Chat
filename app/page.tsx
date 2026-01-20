@@ -95,17 +95,10 @@ export default function Home() {
   }
 
   return (
-    <div style={{ 
-      display: 'flex', 
-      flexDirection: 'column',
-      width: '100%',
-      maxWidth: '396px',
-      maxHeight: '484px',
-      margin: '0 auto'
-    }}>
+    <>
       {/* 消息列表 */}
       <div style={{ 
-        flex: 1, 
+        height: 'calc(100vh - 80px)',
         overflowY: 'scroll',
         WebkitOverflowScrolling: 'touch' as any,
         padding: '8px'
@@ -156,7 +149,7 @@ export default function Home() {
         background: '#0a0a0a',
         borderTop: '1px solid #1a1a1a'
       }}>
-        <div style={{ display: 'flex', gap: '6px' }}>
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
           <input
             type="text"
             value={input}
@@ -179,12 +172,12 @@ export default function Home() {
             onClick={sendMessage}
             disabled={loading || !input.trim()}
             style={{
-              padding: '8px 12px',
+              padding: '10px 16px',
               background: loading || !input.trim() ? '#333' : '#0a84ff',
               border: 'none',
-              borderRadius: '6px',
+              borderRadius: '10px',
               color: '#fff',
-              fontSize: '19px',
+              fontSize: '20px',
               cursor: loading || !input.trim() ? 'not-allowed' : 'pointer'
             }}
           >
@@ -192,6 +185,6 @@ export default function Home() {
           </button>
         </div>
       </div>
-    </div>
+    </>
   )
 }
