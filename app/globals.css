@@ -1,80 +1,343 @@
+:root {
+  color-scheme: dark;
+  --bg-base: #04070f;
+  --bg-alt: #0a1020;
+  --panel: rgba(10, 16, 32, 0.76);
+  --panel-border: rgba(0, 224, 255, 0.22);
+  --text-primary: #f5f8ff;
+  --text-muted: #9bb0d1;
+  --brand: #00e0ff;
+  --brand-strong: #38fdb5;
+  --danger: #ff6f8f;
+  --shadow: 0 24px 56px rgba(1, 10, 26, 0.58);
+}
+
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
+html,
 body {
-  background: #000;
-  color: #fff;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 18px;
-  line-height: 1.6;
-  min-height: 100vh;
-  overflow-x: hidden;
+  margin: 0;
+  min-height: 100%;
 }
 
-/* KaTeX 样式 */
-@import url('https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css');
+body {
+  font-family: 'Space Grotesk', 'IBM Plex Sans', 'Segoe UI', sans-serif;
+  color: var(--text-primary);
+  background:
+    radial-gradient(circle at 15% 12%, rgba(56, 253, 181, 0.2), transparent 34%),
+    radial-gradient(circle at 87% 8%, rgba(0, 224, 255, 0.22), transparent 28%),
+    linear-gradient(160deg, var(--bg-alt) 0%, var(--bg-base) 52%, #03050b 100%);
+}
 
-/* Markdown 内容样式 */
-.markdown-content {
-  font-size: 19px;
+.watch-app {
+  min-height: 100dvh;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.chat-shell {
+  width: min(100%, 760px);
+  max-height: calc(100dvh - 24px);
+  display: grid;
+  grid-template-rows: auto auto 1fr auto auto;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 26px;
+  border: 1px solid var(--panel-border);
+  background: linear-gradient(
+    145deg,
+    rgba(11, 19, 38, 0.86),
+    rgba(4, 8, 17, 0.84) 48%,
+    rgba(8, 13, 23, 0.86)
+  );
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px);
+}
+
+.chat-header {
+  display: grid;
+  gap: 6px;
+}
+
+.chat-kicker {
+  margin: 0;
+  letter-spacing: 0.14em;
+  font-size: 11px;
+  color: var(--brand);
+}
+
+.chat-title {
+  margin: 0;
+  line-height: 1.05;
+  font-size: clamp(1.3rem, 2.6vw, 2rem);
+  font-weight: 700;
+}
+
+.chat-subtitle {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.quick-prompts {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+}
+
+.quick-prompts::-webkit-scrollbar {
+  height: 6px;
+}
+
+.quick-prompts::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(155, 176, 209, 0.4);
+}
+
+.quick-prompt-chip {
+  flex: 0 0 auto;
+  border: 1px solid rgba(0, 224, 255, 0.26);
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #dcf7ff;
+  background:
+    linear-gradient(120deg, rgba(0, 224, 255, 0.16), rgba(56, 253, 181, 0.14)),
+    rgba(7, 14, 30, 0.75);
+  cursor: pointer;
+  transition:
+    transform 150ms ease,
+    border-color 150ms ease,
+    filter 150ms ease;
+}
+
+.quick-prompt-chip:hover:enabled {
+  transform: translateY(-1px);
+  border-color: rgba(56, 253, 181, 0.72);
+  filter: brightness(1.08);
+}
+
+.quick-prompt-chip:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
+.message-list {
+  min-height: 240px;
+  overflow-y: auto;
+  padding-right: 4px;
+  display: grid;
+  gap: 14px;
+}
+
+.message-group {
+  display: grid;
+  gap: 8px;
+}
+
+.message-group-label {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(155, 176, 209, 0.76);
+}
+
+.message-group-items {
+  display: grid;
+  gap: 8px;
+}
+
+.message-card {
+  border-radius: 14px;
+  padding: 10px 12px;
+  border: 1px solid rgba(0, 224, 255, 0.12);
+  background: rgba(8, 14, 27, 0.72);
+}
+
+.message-card.user {
+  border-color: rgba(56, 253, 181, 0.24);
+  background: linear-gradient(
+    132deg,
+    rgba(11, 31, 33, 0.92),
+    rgba(8, 18, 20, 0.84)
+  );
+}
+
+.message-card.assistant {
+  border-color: rgba(0, 224, 255, 0.26);
+}
+
+.message-role {
+  margin: 0 0 6px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(155, 176, 209, 0.9);
+}
+
+.message-plain {
+  margin: 0;
+  font-size: 0.98rem;
   line-height: 1.5;
 }
 
-.markdown-content p {
-  margin: 6px 0;
+.message-markdown {
+  font-size: 0.96rem;
+  line-height: 1.5;
 }
 
-.markdown-content h1,
-.markdown-content h2,
-.markdown-content h3 {
-  margin: 8px 0 4px 0;
-  font-weight: 600;
+.message-markdown p {
+  margin: 0.4em 0;
 }
 
-.markdown-content h1 { font-size: 16px; }
-.markdown-content h2 { font-size: 15px; }
-.markdown-content h3 { font-size: 14px; }
-
-.markdown-content code {
-  background: #1a1a1a;
-  padding: 2px 4px;
-  border-radius: 3px;
-  font-size: 12px;
-}
-
-.markdown-content pre {
-  background: #1a1a1a;
-  padding: 8px;
-  border-radius: 6px;
-  overflow-x: auto;
-  margin: 6px 0;
-}
-
-.markdown-content pre code {
-  background: none;
-  padding: 0;
-}
-
-.markdown-content ul,
-.markdown-content ol {
-  margin: 6px 0;
+.message-markdown ul,
+.message-markdown ol {
+  margin: 0.45em 0;
   padding-left: 20px;
 }
 
-.markdown-content li {
-  margin: 3px 0;
-}
-
-/* LaTeX 公式样式 */
-.katex {
-  font-size: 1em;
-}
-
-.katex-display {
-  margin: 8px 0;
+.message-markdown pre {
   overflow-x: auto;
-  overflow-y: hidden;
+  margin: 0.5em 0;
+  border-radius: 10px;
+  background: rgba(1, 8, 18, 0.85);
+  border: 1px solid rgba(0, 224, 255, 0.14);
+  padding: 8px;
+}
+
+.message-markdown code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+.empty-state {
+  border: 1px dashed rgba(155, 176, 209, 0.4);
+  border-radius: 12px;
+  padding: 12px;
+  background: rgba(5, 10, 19, 0.66);
+}
+
+.empty-state-title {
+  margin: 0 0 4px;
+  color: #e8f3ff;
+  font-size: 0.94rem;
+}
+
+.empty-state-desc {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.typing-indicator {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--brand);
+}
+
+.system-notice {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.system-notice.is-error {
+  color: var(--danger);
+}
+
+.composer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  padding: 9px;
+  border: 1px solid rgba(0, 224, 255, 0.18);
+  background: rgba(3, 9, 20, 0.85);
+  border-radius: 14px;
+}
+
+.composer-input {
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 1rem;
+  color: #eef6ff;
+  background: rgba(10, 20, 42, 0.86);
+}
+
+.composer-input::placeholder {
+  color: rgba(155, 176, 209, 0.72);
+}
+
+.composer-send {
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 0.96rem;
+  font-weight: 600;
+  color: #04131e;
+  background: linear-gradient(120deg, var(--brand), var(--brand-strong));
+  cursor: pointer;
+  transition:
+    filter 140ms ease,
+    transform 140ms ease;
+}
+
+.composer-send:hover:enabled {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.composer-send:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+@media (max-width: 560px) {
+  .watch-app {
+    padding: 8px;
+  }
+
+  .chat-shell {
+    max-height: calc(100dvh - 16px);
+    border-radius: 20px;
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .chat-kicker {
+    font-size: 10px;
+  }
+
+  .chat-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .message-list {
+    min-height: 180px;
+  }
+
+  .composer {
+    grid-template-columns: 1fr;
+  }
 }

@@ -1,11 +1,20 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
+
+import 'katex/dist/katex.min.css'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'AI 学习助手',
-  description: 'Apple Watch AI Chat',
-  viewport:
-    'width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no',
+  title: 'AI_BLESS Chat',
+  description: 'Apple Watch optimized AI tutor chat experience.',
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: '#04070f',
 }
 
 export default function RootLayout({
