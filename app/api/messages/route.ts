@@ -1,59 +1,73 @@
 import { NextRequest, NextResponse } from 'next/server'
-import Database from 'better-sqlite3'
-import path from 'path'
 
-const dbPath = path.join(process.cwd(), 'data', 'chat.db')
+import { MessagesRepository } from '@/lib/db/messagesRepository'
+import type {
+  ErrorResponseBody,
+  Message,
+  SaveMessagesRequestBody,
+  SaveMessagesResponseBody,
+} from '@/lib/types/chat'
 
-function getDb() {
-  const db = new Database(dbPath)
-  
-  db.exec(`
-    CREATE TABLE IF NOT EXISTS messages (
-      id TEXT PRIMARY KEY,
-      role TEXT NOT NULL,
-      content TEXT NOT NULL,
-      timestamp INTEGER NOT NULL
-    )
-  `)
-  
-  return db
+function isValidMessage(value: unknown): value is Message {
+  if (typeof value !== 'object' || value === null) {
+    return false
+  }
+
+  const maybeMessage = value as Partial<Message>
+  return (
+    typeof maybeMessage.id === 'string' &&
+    (maybeMessage.role === 'user' || maybeMessage.role === 'assistant') &&
+    typeof maybeMessage.content === 'string' &&
+    typeof maybeMessage.timestamp === 'number' &&
+    Number.isFinite(maybeMessage.timestamp)
+  )
 }
 
 export async function GET() {
+  const repository = new MessagesRepository()
+
   try {
-    const db = getDb()
-    const messages = db.prepare('SELECT * FROM messages ORDER BY timestamp ASC').all()
-    db.close()
-    
-    return NextResponse.json(messages)
+    return NextResponse.json(repository.listMessages())
   } catch (error) {
-    console.error('Get messages error:', error)
+    console.error('messages_get_error', error)
     return NextResponse.json([])
+  } finally {
+    repository.close()
   }
 }
 
 export async function POST(request: NextRequest) {
+  let body: Partial<SaveMessagesRequestBody>
+
   try {
-    const { messages } = await request.json()
-    const db = getDb()
-    
-    const insert = db.prepare(`
-      INSERT OR REPLACE INTO messages (id, role, content, timestamp)
-      VALUES (?, ?, ?, ?)
-    `)
-    
-    for (const msg of messages) {
-      insert.run(msg.id, msg.role, msg.content, msg.timestamp)
-    }
-    
-    db.close()
-    
-    return NextResponse.json({ success: true })
+    body = (await request.json()) as Partial<SaveMessagesRequestBody>
+  } catch {
+    return NextResponse.json<ErrorResponseBody>(
+      { error: '请求体必须为 JSON 格式' },
+      { status: 400 }
+    )
+  }
+
+  const messages = body.messages
+  if (!Array.isArray(messages) || !messages.every(isValidMessage)) {
+    return NextResponse.json<ErrorResponseBody>(
+      { error: 'messages 字段格式不正确' },
+      { status: 400 }
+    )
+  }
+
+  const repository = new MessagesRepository()
+
+  try {
+    repository.saveMessages(messages)
+    return NextResponse.json<SaveMessagesResponseBody>({ success: true })
   } catch (error) {
-    console.error('Save messages error:', error)
-    return NextResponse.json(
+    console.error('messages_save_error', error)
+    return NextResponse.json<ErrorResponseBody>(
       { error: '保存失败' },
       { status: 500 }
     )
+  } finally {
+    repository.close()
   }
 }
