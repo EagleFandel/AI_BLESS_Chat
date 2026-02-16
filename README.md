@@ -1,99 +1,111 @@
-# Apple Watch AI Chat
+# AI_BLESS Chat
 
-适配 Apple Watch 的 Web AI 学习助手（396 x 484）
+Apple Watch and mobile optimized AI tutor chat app, built with Next.js 14 + TypeScript + SQLite.  
+面向 Apple Watch 与手机双场景的 AI 学习助手，支持高考问答、翻译、作文、公式讲解。
 
-## 功能特点
+## Highlights | 亮点
 
-- 🎯 高考题目解答（完整答案 + 详细解析）
-- 🌐 中英文翻译
-- 📝 作文范文
-- 📐 数学/物理/化学公式讲解
-- 📱 Apple Watch 屏幕适配
-- 🌙 暗黑主题 + 极简设计
-- 💾 本地数据库存储（SQLite）
-- 🔄 多设备数据同步
-- ✨ Markdown + LaTeX 公式渲染
+- API compatible refactor with modular backend architecture.
+- Cyber-neon dark UI redesign with message grouping and quick prompts.
+- Local SQLite persistence with idempotent schema migration.
+- Markdown + LaTeX rendering for assistant answers.
+- Vitest + Testing Library tests and GitHub Actions CI.
 
-## 技术栈
+## Tech Stack | 技术栈
 
 - Next.js 14
 - TypeScript
-- Better-SQLite3
-- React Markdown
-- KaTeX (LaTeX 渲染)
+- better-sqlite3
+- React Markdown + remark-math + rehype-katex
+- Vitest + React Testing Library
 
-## 安装
+## Project Structure | 目录结构
+
+```text
+app/
+  api/
+    chat/route.ts
+    messages/route.ts
+  components/chat/
+lib/
+  ai/
+  config/
+  db/
+  services/
+  types/
+```
+
+## Quick Start | 快速开始
+
+1. Install dependencies | 安装依赖
 
 ```bash
 npm install
 ```
 
-## 开发
+2. Create env file | 创建环境变量文件
+
+```bash
+cp .env.example .env.local
+```
+
+3. Fill in your real `API_KEY` locally (never commit it).  
+在本地填写真实 `API_KEY`（禁止提交到仓库）。
+
+4. Start development server | 启动开发环境
 
 ```bash
 npm run dev
 ```
 
-访问 http://localhost:3000
+Visit | 访问: http://localhost:3000
 
-## 构建
+## Environment Variables | 环境变量
 
-```bash
-npm run build
-npm start
-```
+| Name | Required | Default | Description |
+| --- | --- | --- | --- |
+| `API_KEY` | Yes | - | Upstream AI API token |
+| `API_URL` | No | `https://cloud.infini-ai.com/maas/v1/chat/completions` | Upstream chat completion endpoint |
+| `AI_MODEL` | No | `deepseek-v3.2` | Upstream model name |
+| `CHAT_DB_PATH` | No | `data/chat.db` | SQLite database path |
 
-## 部署到 Coolify
+## Scripts
 
-### 快速开始
+- `npm run dev`: run local dev server
+- `npm run lint`: run lint checks
+- `npm run test`: run tests in watch mode
+- `npm run test:ci`: run tests once with coverage
+- `npm run build`: production build
+- `npm run start`: start production server
 
-1. **推送代码到 Git 仓库**
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git remote add origin <你的仓库地址>
-git push -u origin main
-```
+## Deployment | 部署
 
-2. **在 Coolify 中配置**
-   - 创建新应用 → 选择你的 Git 仓库
-   - **Build Pack:** Dockerfile
-   - **Port:** 3000
-   - **环境变量:**
-     ```
-     API_KEY=sk-isf454xt7lpe6h7o
-     API_URL=https://cloud.infini-ai.com/maas/v1/chat/completions
-     ```
-   - **持久化存储（重要）:**
-     - Source: `/app/data`
-     - Destination: `/data`
+- See `DEPLOY.md` for Coolify and Docker deployment steps.
+- Use `.env` / platform secret manager to configure keys.
+- Configure persistent storage for `data/` to keep chat history.
 
-3. **点击 Deploy**
+## Security Notice | 安全说明
 
-详细部署说明请查看 [DEPLOY.md](./DEPLOY.md)
+- Never commit real secrets (`API_KEY`, tokens, credentials).
+- If any key was exposed in git history, rotate it immediately at the provider side.
+- Keep `.env.example` as placeholder values only.
 
----
+## Release Notes Template | 发布说明结构
 
-## 数据库
+For each release, include:
 
-应用使用 SQLite 本地数据库，数据存储在 `data/chat.db`
+1. Highlights / 亮点
+2. Refactor Scope / 重构范围
+3. Compatibility / 兼容性
+4. OSS & Security / 开源与安全
+5. Upgrade Notes / 升级说明
+6. Verification / 验证结果
 
-确保 `data` 目录有写入权限：
-```bash
-mkdir -p data
-chmod 755 data
-```
+## Contributing | 贡献
 
-## 屏幕适配
+Issues and pull requests are welcome.  
+欢迎提交 Issue 与 PR。
 
-- 宽度：396px
-- 高度：484px
-- 极简设计，减少 padding
-- 暗黑主题
+## License
 
-## API 配置
-
-使用 DeepSeek V3.2 模型，通过 Infini AI 接口调用。
-
-API Key 已配置在 `.env.local` 文件中。
+MIT. See `LICENSE`.
