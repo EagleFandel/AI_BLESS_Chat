@@ -8,7 +8,7 @@ services:
     environment:
       - API_KEY=${API_KEY}
       - API_URL=${API_URL}
-      - AI_MODEL=${AI_MODEL:-deepseek-v3.2}
+      - AI_MODEL=${AI_MODEL:-deepseek-v4-pro}
       - CHAT_DB_PATH=${CHAT_DB_PATH:-data/chat.db}
     volumes:
       - ./data:/app/data

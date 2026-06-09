@@ -1,5 +1,5 @@
 const DEFAULT_API_URL = 'https://cloud.infini-ai.com/maas/v1/chat/completions'
-const DEFAULT_AI_MODEL = 'deepseek-v3.2'
+const DEFAULT_AI_MODEL = 'deepseek-v4-pro'
 const DEFAULT_CHAT_DB_PATH = 'data/chat.db'
 
 export interface OptionalAppConfig {
